@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMEZONE | Все игровые новинки и новости</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #0b0c10; color: #c5c6c7; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { color: #66fcf1; text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #45f3ff; }
+        header { background-color: #1f2833; border-bottom: 2px solid #45f3ff; position: sticky; top: 0; z-index: 100; }
+        header .container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+        .logo { font-size: 28px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+        .logo span { color: #45f3ff; text-shadow: 0 0 10px rgba(69, 243, 255, 0.5); }
+        nav a { color: #fff; margin-left: 25px; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        .hero { background: linear-gradient(rgba(11, 12, 16, 0.4), #0b0c10), url('https://unsplash.com') no-repeat center center/cover; padding: 140px 0 80px 0; }
+        .hero-badge { background-color: #ff0055; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: bold; text-transform: uppercase; border-radius: 3px; display: inline-block; margin-bottom: 15px; }
+        .hero h1 { font-size: 46px; color: #fff; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); max-width: 800px; }
+        .hero p { font-size: 18px; margin-bottom: 25px; max-width: 600px; color: #eaeded; }
+        .btn { display: inline-block; background: linear-gradient(90deg, #45f3ff, #bd00ff); color: #fff; padding: 12px 30px; border-radius: 5px; font-weight: bold; text-transform: uppercase; box-shadow: 0 0 15px rgba(69, 243, 255, 0.4); }
+        .btn:hover { background: linear-gradient(90deg, #bd00ff, #45f3ff); color: #fff; }
+        .main-content { padding: 40px 0; }
+        .section-title { font-size: 28px; color: #fff; margin: 40px 0 20px 0; text-transform: uppercase; border-left: 5px solid #45f3ff; padding-left: 15px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .news-card { background-color: #1f2833; border-radius: 8px; overflow: hidden; border: 1px solid #2f3e46; transition: transform 0.3s, box-shadow 0.3s; }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(69, 243, 255, 0.2); border-color: #45f3ff; }
+        .news-img { height: 200px; background-size: cover; background-position: center; }
+        .news-body { padding: 20px; }
+        .news-date { font-size: 12px; color: #66fcf1; margin-bottom: 10px; display: block; }
+        .news-body h3 { color: #fff; font-size: 20px; margin-bottom: 10px; }
+        .search-box { margin-bottom: 15px; display: flex; }
+        .search-box input { width: 100%; max-width: 400px; padding: 10px 15px; background-color: #1f2833; border: 1px solid #2f3e46; border-radius: 5px; color: #fff; font-size: 14px; }
+        .search-box input:focus { outline: none; border-color: #45f3ff; }
+        .rating-table { width: 100%; border-collapse: collapse; background-color: #1f2833; border-radius: 8px; overflow: hidden; margin-bottom: 40px; border: 1px solid #2f3e46; }
+        .rating-table th, .rating-table td { padding: 15px; text-align: left; }
+        .rating-table th { background-color: #151c24; color: #45f3ff; text-transform: uppercase; font-size: 14px; }
+        .rating-table tr { border-bottom: 1px solid #2f3e46; }
+        .rating-table tr:hover { background-color: #25313f; }
+        .score-badge { background: linear-gradient(90deg, #45f3ff, #bd00ff); color: #fff; padding: 4px 10px; border-radius: 4px; font-weight: bold; }
+        .comments-section { background-color: #1f2833; padding: 30px; border-radius: 8px; border: 1px solid #2f3e46; }
+        .comment-form { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .comment-form input, .comment-form textarea { padding: 12px; background-color: #0b0c10; border: 1px solid #2f3e46; border-radius: 5px; color: #fff; font-size: 14px; }
+        .comment-form textarea { resize: vertical; min-height: 100px; }
+        .comment-form button { align-self: flex-start; background: linear-gradient(90deg, #45f3ff, #bd00ff); color: #fff; border: none; padding: 12px 30px; font-weight: bold; border-radius: 5px; cursor: pointer; text-transform: uppercase; }
+        .comment-form button:hover { background: linear-gradient(90deg, #bd00ff, #45f3ff); }
+        .comments-list { display: flex; flex-direction: column; gap: 20px; }
+        .comment-item { background-color: #151c24; padding: 20px; border-radius: 6px; border-left: 3px solid #bd00ff; }
+        .comment-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        .comment-author { color: #45f3ff; font-weight: bold; }
+        .comment-date { color: #7f8c8d; }
+        .comment-footer { margin-top: 15px; display: flex; justify-content: flex-end; }
+        .like-btn { background-color: #1f2833; border: 1px solid #2f3e46; color: #c5c6c7; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.2s ease; }
+        .like-btn:hover, .like-btn.liked { border-color: #ff0055; color: #ff0055; }
+        footer { background-color: #1f2833; text-align: center; padding: 30px 0; margin-top: 60px; border-top: 1px solid #2f3e46; }
+        @media (max-width: 768px) { header .container { flex-direction: column; gap: 15px; nav a { margin: 0 10px; } .rating-table th:nth-child(3), .rating-table td:nth-child(3) { display: none; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">GAME<span>ZONE</span></div>
+            <nav>
+                <a href="#news">Новости</a>
+                <a href="#ratings">Рейтинги</a>
+                <a href="#comments">Обсуждения</a>
+            </nav>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="container">
+            <span class="hero-badge">Главный релиз</span>
+            <h1>🔥 Название Самой Ожидаемой Игры Года уже в сети!</h1>
+            <p>Первые подробности геймплея, системные требования и эксклюзивное интервью с разработчиками нового хита.</p>
+            <a href="#news" class="btn">Читать обзор</a>
+        </div>
+    </section>
+    <main class="container main-content">
+        <!-- Блок Новостей -->
+        <section id="news">
+            <h2 class="section-title">Последние новости</h2>
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="news-img" style="background-image: url('https://unsplash.com');"></div>
+                    <div class="news-body">
+                        <span class="news-date">Сегодня, 10:15</span>
+                        <h3>Обновление графики нового поколения</h3>
+                        <p>Крупный патч добавил поддержку трассировки лучей и увеличил производительность на 30%.</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-img" style="background-image: url('https://unsplash.com');"></div>
+                    <div class="news-body">
+                        <span class="news-date">Вчера, 18:40</span>
+                        <h3>Анонсирован новый киберспортивный турнир</h3>
+                        <p>Призовой фонд составит рекордные 5 миллионов долларов. Регистрация команд уже открыта.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Блок Таблицы Рейтингов -->
+        <section id="ratings">
+            <h2 class="section-title">Рейтинг новинок</h2>
+            <div class="search-box">
+                <input type="text" id="tableSearch" placeholder="Поиск по названию или платформе...">
+            </div>
+            <table class="rating-table" id="gamesTable">
+                <thead>
+                    <tr>
+                        <th>Место</th>
+                        <th>Название игры</th>
+                        <th>Платформы</th>
+                        <th>Оценка</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>1</strong></td><td>Cyber-Chronicles 2</td><td>PC, PS5, Xbox X</td><td><span class="score-badge">9.5</span></td></tr>
+                    <tr><td><strong>2</strong></td><td>Star Voyager: Infinite</td><td>PC, PS5</td><td><span class="score-badge">9.0</span></td></tr>
+                    <tr><td><strong>3</strong></td><td>Shadow Realm: RPG</td><td>PC, Xbox X, Switch 2</td><td><span class="score-badge">8.7</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Блок Комментариев -->
+        <section id="comments" class="comments-section">
+            <h2 class="section-title" style="margin-top: 0;">Комментарии сообщества</h2>
+            <form class="comment-form" id="commentForm">
+                <input type="text" id="authorInput" placeholder="Ваш никнейм" required>
+                <textarea id="textInput" placeholder="Оставьте ваше мнение..." required></textarea>
+                <button type="submit">Отправить</button>
+            </form>
+            <div class="comments-list" id="commentsList"></div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 GAMEZONE. Все права защищены.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComments();
+            initSearch();
+        });
+
+        function initSearch() {
+            const searchInput = document.getElementById('tableSearch');
+            const tableRows = document.querySelectorAll('#gamesTable tbody tr');
+            searchInput.addEventListener('input', function() {
+                const filter = this.value.toLowerCase();
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(filter) ? '' : 'none';
+                });
+            });
+        }
+
+        const commentForm = document.getElementById('commentForm');
+        const commentsList = document.getElementById('commentsList');
+        const defaultComments = [
+            { id: 1, author: 'Alex_Gamer', text: 'Cyber-Chronicles 2 полностью оправдала ожидания!', date: 'Вчера, 18:20', likes: 12 }
+        ];
+
+        function loadComments() {
+            let comments = JSON.parse(localStorage.getItem('gz_comments')) || defaultComments;
+            if (!localStorage.getItem('gz_comments')) localStorage.setItem('gz_comments', JSON.stringify(comments));
+            commentsList.innerHTML = '';
+            comments.forEach(c => renderComment(c));
+        }
+
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const author = document.getElementById('authorInput').value;
+            const text = document.getElementById('textInput').value;
+            const newComment = { id: Date.now(), author, text, date: 'Сегодня, ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), likes: 0 };
+            let comments = JSON.parse(localStorage.getItem('gz_comments')) || [];
+            comments.unshift(newComment);
+            localStorage.setItem('gz_comments', JSON.stringify(comments));
+            renderComment(newComment, true);
+            commentForm.reset();
+        });
+
+        function renderComment(c, isNew = false) {
+            const node = document.createElement('div');
+            node.className = 'comment-item';
+            node.innerHTML = `
+                <div class="comment-header"><span class="comment-author">${escapeHTML(c.author)}</span><span class="comment-date">${c.date}</span></div>
+                <div class="comment-text">${escapeHTML(c.text)}</div>
+                <div class="comment-footer"><button class="like-btn" onclick="toggleLike(this, ${c.id})">❤ <span>${c.likes}</span></button></div>`;
+            if (isNew) commentsList.insertBefore(node, commentsList.firstChild);
+            else commentsList.appendChild(node);
+        }
+
+        function toggleLike(btn, id) {
+            let comments = JSON.parse(localStorage.getItem('gz_comments'));
+            const c = comments.find(item => item.id === id);
+            if (!c) return;
+            if (btn.classList.toggle('liked')) c.likes++; else c.likes--;
+            btn.querySelector('span').textContent = c.likes;
+            localStorage.setItem('gz_comments', JSON.stringify(comments));
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+    </script>
+</body>
+</html>
+
+
